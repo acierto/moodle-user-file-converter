@@ -49,9 +49,4 @@ with open('students.csv', 'wb') as csvfile:
     spamwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
 
     for row_num in range(0, len(students)):
-
-        if len(students[row_num]) != 6:
-            print row_num
-
-        # print students[row_num]
         spamwriter.writerow(students[row_num])
