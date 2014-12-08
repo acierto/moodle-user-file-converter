@@ -1,5 +1,6 @@
-from xlrd import open_workbook
+from xlrd import open_workbook, xldate_as_tuple
 from unidecode import unidecode
+import datetime
 
 wb = open_workbook('SGTiRmoodle.xls')
 students = []
@@ -19,20 +20,24 @@ students[counter].append("cohort1")
 counter += 1
 
 for row_num in range(0, first_sheet.nrows):
-    date_of_birth = first_sheet.cell(row_num,6).value
-    formatted_date_of_birth = date_of_birth[0:2] + date_of_birth[3:5] + date_of_birth[-2:]
+    date_of_birth_float = first_sheet.cell(row_num,6).value
+    cohort = str(int(first_sheet.cell(row_num,5).value))
+
+    date_of_birth = datetime.datetime(*xldate_as_tuple(date_of_birth_float, wb.datemode))
+
+    formatted_date_of_birth = str(date_of_birth.strftime("%d%m%y"))
 
     first_name = unidecode(first_sheet.cell(row_num,2).value.strip().replace(' ', ''))
     last_name = unidecode(first_sheet.cell(row_num,3).value.strip().replace(' ', ''))
 
-    email = unidecode(first_sheet.cell(row_num,4).value.strip().replace(' ', ''))
+    email = first_sheet.cell(row_num,4).value.strip().replace(' ', '')
     if not email:
-        email = "test%s@test.com" % (1 + mail_cnt)
+        email = "test%s@mytest.com" % (1 + mail_cnt)
         mail_cnt += 1
 
     login = first_name[0:1].lower() + last_name.lower()
 
-    password = unidecode(last_name + formatted_date_of_birth + '@')
+    password = last_name + formatted_date_of_birth + '@'
 
     students.append([])
     students[counter].append(login) # login
@@ -40,7 +45,7 @@ for row_num in range(0, first_sheet.nrows):
     students[counter].append(first_name) # name
     students[counter].append(last_name) # surname
     students[counter].append(email) # email
-    students[counter].append('SGTiR_Students_Z_2014/2015') # cohort
+    students[counter].append(cohort) # cohort
 
     counter += 1
 
