@@ -4,6 +4,7 @@ Links to download libraries:
 
 For parsing excel:
 https://pypi.python.org/packages/source/x/xlrd/xlrd-0.9.3.tar.gz
+https://pypi.python.org/pypi/xlwt
 
 For transliteration:
 https://pypi.python.org/pypi/Unidecode/0.04.1#downloads
